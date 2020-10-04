@@ -22,6 +22,8 @@ def train(data, path='openai-gpt', mind=0):
     else:
         train_ds= parse_file_dr(ROC_TRAIN, noi_frac=noise_frac)
         savedir = './modelr/savedmodels'
+    if not os.path.exists(savedir):
+        os.makedirs(savedir)
     model = OpenAIGPTLMHeadModel.from_pretrained(path) #model not on cuda
     if path == 'openai-gpt':
         model.resize_token_embeddings(tokenizer_dr.vocab_size + num_added_token_dr)

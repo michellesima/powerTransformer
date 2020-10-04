@@ -1,5 +1,6 @@
 from transformers import *
 import torch
+import argparse
 from torch.utils.data import DataLoader
 import pandas as pd
 from utils import *
@@ -92,10 +93,11 @@ def eval_model(mind, test_dataset, df, mtd='para'):
     finaldf = pd.DataFrame()
     if mtd == 'para':
         savedir = './modelp/savedmodels'
-    elif mtd == 'mix':
+    elif mtd == 'joint':
         savedir = './modelmix/savedmodels'
     else:
         savedir = './modelr/savedmodels'
+
     if 'sen0' in df.columns:
         colsen = 'sen0'
     else:
@@ -129,7 +131,7 @@ def gen(mindi, ds, model='para'):
     savedfile = 'gen_sen/joint-none-test.csv'
     finaldf.to_csv(savedfile, index=False)
 
-def main(ds, mind, mtd='mix'):
+def main(ds, mind, mtd):
     args = {}
     args['n_ctx'] = max_sen_len
     # change to -> load saved dataset
@@ -137,8 +139,12 @@ def main(ds, mind, mtd='mix'):
 
 if __name__ == '__main__':
     # mtd: model trained dataset
-    ds, mind, mtd = sys.argv[1], sys.argv[2], sys.argv[3]
-    if len(sys.argv) == 4:
-        main(ds, mind, mtd)
-    else:
-        main(ds, mind)
+    parser = argparse.ArgumentParser(description='Process generation parameters')
+    parser.add_argument('--dataset', type=str,
+                        help='dataset for generation')
+    parser.add_argument('--setup', type=str,
+                        help='model setup objective')
+    parser.add_argument('--epoch', type=str, default=0,
+                        help='the previous trained epoch to load')
+    args = parser.parse_args()
+    main(args.dataset, args.epoch, args.setup)

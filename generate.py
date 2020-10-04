@@ -58,15 +58,19 @@ def sample_sequence_ivp(model, length, context, verb_vector, num_samples=1, temp
             generated = torch.cat((generated, next_token.unsqueeze(0)), dim=1)
     return generated
 
-def gen_p(model, test_dataset, descat):
+def gen_p(model, test_dataset, descat, vocabBoost):
     outlist = []
     outp = []
     print(len(test_dataset))
+    if vocabBoost:
+        scaling = VER_ADD_VAL
+    else:
+        scaling = 0
     for i in ps:
         for j in range(len(test_dataset)):
             sen = test_dataset[j]
             senlen = len(sen)
-            verb_vector = agen_vector[descat[j]] * 0
+            verb_vector = agen_vector[descat[j]] * scaling
             out = sample_sequence_ivp(
                 model=model,
                 context=sen,
@@ -86,7 +90,7 @@ def gen_p(model, test_dataset, descat):
             outp.append(i)
     return outlist, outp
 
-def eval_model(mind, test_dataset, df, mtd='para'):
+def eval_model(mind, test_dataset, df, vocabBoost, mtd='para'):
     '''
     get generated sentence for a particular model
     '''
@@ -108,7 +112,7 @@ def eval_model(mind, test_dataset, df, mtd='para'):
     model.to(device_dr)
     model.eval()
     df = repeatN(df, len(ps) - 1)
-    outlist, outp = gen_p(model, test_dataset, df['descat'].tolist())
+    outlist, outp = gen_p(model, test_dataset, df['descat'].tolist(), vocabBoost)
     df['out'] = outlist
     df['p-value'] = outp
     df.sort_values(by=[colsen, 'p-value'], inplace=True)
@@ -116,7 +120,7 @@ def eval_model(mind, test_dataset, df, mtd='para'):
     finaldf = finaldf.append(df, ignore_index=True)
     return finaldf
 
-def gen(mindi, ds, model='para'):
+def gen(mind, ds, vocabBoost, model='para'):
     if ds == 'para':
         f = DEV_DR
     elif ds == 'roc':
@@ -127,15 +131,15 @@ def gen(mindi, ds, model='para'):
         f = MOVIE_DATA
     test_dataset, df = parse_file_dr(f, train_time=False)
     print(len(df.index))
-    finaldf = eval_model(mind, test_dataset, df, mtd=model)
+    finaldf = eval_model(mind, test_dataset, df, vocabBoost, mtd=model)
     savedfile = 'gen_sen/joint-none-test.csv'
     finaldf.to_csv(savedfile, index=False)
 
-def main(ds, mind, mtd):
+def main(ds, mind, mtd, vocabBoost):
     args = {}
     args['n_ctx'] = max_sen_len
     # change to -> load saved dataset
-    gen(mind, ds, mtd)
+    gen(mind, ds, vocabBoost, mtd)
 
 if __name__ == '__main__':
     # mtd: model trained dataset
@@ -146,5 +150,6 @@ if __name__ == '__main__':
                         help='model setup objective')
     parser.add_argument('--epoch', type=str, default=0,
                         help='the previous trained epoch to load')
+    parser.add_argument('--vocabBoost', action='store_true')
     args = parser.parse_args()
-    main(args.dataset, args.epoch, args.setup)
+    main(args.dataset, args.epoch, args.setup, args.vocabBoost)

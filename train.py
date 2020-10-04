@@ -13,17 +13,18 @@ def train(data, path='openai-gpt', mind=0):
     # Load dataset, tokenizer, model from pretrained model/vocabulary
     if data == 'para':
         train_ds = parse_file_dr(TRAIN_DR, noi_frac=noise_frac, para=True)
-        savedir = './modelp/savedmodels'
+        savedir = './modelp/'
     elif data == 'joint':
         train_ds = parse_file_dr(TRAIN_DR, noi_frac=noise_frac, para=True)
         train_roc = parse_file_dr(ROC_TRAIN, noi_frac=noise_frac)
         train_ds.append(train_roc)
-        savedir = './modelmix/savedmodels'
+        savedir = './modelmix/'
     else:
         train_ds= parse_file_dr(ROC_TRAIN, noi_frac=noise_frac)
-        savedir = './modelr/savedmodels'
+        savedir = './modelr/'
     if not os.path.exists(savedir):
         os.makedirs(savedir)
+    savedir = os.path.join(savedir, 'savedmodels')
     model = OpenAIGPTLMHeadModel.from_pretrained(path) #model not on cuda
     if path == 'openai-gpt':
         model.resize_token_embeddings(tokenizer_dr.vocab_size + num_added_token_dr)
@@ -70,7 +71,7 @@ if __name__ == '__main__':
     parser.add_argument('--epoch', type=int, default=0,
                         help='the previous trained epoch to load')
     args = parser.parse_args()
-    if args.eposh == 0:
+    if args.epoch == 0:
         train(args.setup)
     else:
         model = './savedm/savedmodels' + str(args.epoch)

@@ -1,5 +1,6 @@
 from transformers import *
 import sys
+import argparse
 from torch.nn import CrossEntropyLoss
 from utils import *
 from torch import utils
@@ -13,7 +14,7 @@ def train(data, path='openai-gpt', mind=0):
     if data == 'para':
         train_ds = parse_file_dr(TRAIN_DR, noi_frac=noise_frac, para=True)
         savedir = './modelp/savedmodels'
-    elif data == 'mix':
+    elif data == 'joint':
         train_ds = parse_file_dr(TRAIN_DR, noi_frac=noise_frac, para=True)
         train_roc = parse_file_dr(ROC_TRAIN, noi_frac=noise_frac)
         train_ds.append(train_roc)
@@ -61,9 +62,14 @@ def train(data, path='openai-gpt', mind=0):
         loss_df.to_csv('loss_'+data+'.csv')
 
 if __name__ == '__main__':
-    data = sys.argv[1]
-    if len(sys.argv) == 2:
-        train(data)
+    parser = argparse.ArgumentParser(description='Process training parameters')
+    parser.add_argument('--setup', type=str,
+                        help='model setup objective')
+    parser.add_argument('--epoch', type=int, default=0,
+                        help='the previous trained epoch to load')
+    args = parser.parse_args()
+    if args.eposh == 0:
+        train(args.setup)
     else:
-        model = './savedm/savedmodels' + sys.argv[2]
-        train(data, model, int(sys.argv[2]))
+        model = './savedm/savedmodels' + str(args.epoch)
+        train(args.setup, model, args.epoch)

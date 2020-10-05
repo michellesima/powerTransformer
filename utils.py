@@ -91,11 +91,11 @@ ps = [0.4, 0.6]
 num_epoch = 10
 
 agen_v = agen_verbs()
-ROC_TRAIN = './data/roc/train.csv'
-ROC_TEST = './data/roc/test.csv'
-ROC_TEST_HE = './data/roc/supplyVerb.csv'
-ROC_DEV = './data/roc/dev.csv'
-ROC_DEV_HE = './data/for_human_eval.csv'
+ROC_TRAIN = './con_rew_data/roc/train.csv'
+ROC_TEST = './con_rew_data/roc/test.csv'
+ROC_TEST_HE = './con_rew_data/roc/supplyVerb.csv'
+ROC_DEV = './con_rew_data/roc/dev.csv'
+ROC_DEV_HE = './con_rew_data/for_human_eval.csv'
 
 MOVIE_DATA_G = './data/movie/forg/movie.pickle'
 MOVIE_DATA_G_NONCAT = './data/movie/forg/movie_noncat.pickle'

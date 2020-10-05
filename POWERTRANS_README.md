@@ -3,7 +3,7 @@
 ## Model Training
 To train the model, 
 1. Download our dataset from https://homes.cs.washington.edu/~msap/controllable-debiasing/ and place 
-in a `data` folder
+in a `con_rew_data` folder
 2. Do the installation as stated in README.md
 3. Train the model with `train.py`. As in our ablated studies, there are two model setups
     1. Joint Objective

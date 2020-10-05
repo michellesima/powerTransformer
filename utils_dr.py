@@ -7,9 +7,9 @@ from dataset import Dataset_dr
 import torch
 import numpy as np
 
-TRAIN_DR = 'data/parads/train_dr.csv'
-DEV_DR = 'data/parads/dev_dr.csv'
-TEST_DR = 'data/parads/test_dr.csv'
+TRAIN_DR = './con_rew_data/para/train_dr.csv'
+DEV_DR = './con_rew_data/para/dev_dr.csv'
+TEST_DR = './con_rew_data/para/test_dr.csv'
 
 fw = open('verb_no_simi.txt', 'w')
 
@@ -87,10 +87,10 @@ def simi_word(verb, descat):
 
 def extract_args(sen, para, train_time):
     if para:
-        sen_del = sen['sendel0']
-        descat = sen['oricat1']
-        verbs = sen['verbs1']
-        para_sen = sen['sen1']
+        sen_del = sen['oridel']
+        descat = sen['paracat']
+        verbs = sen['paraverbs']
+        para_sen = sen['parasen']
     else:
         sen_del = sen['sendel']
         descat = sen['oricat']
@@ -143,10 +143,7 @@ def parse_file_dr(file, noi_frac=0.1, train_time=True, para=False):
             for cat in cats:
                 subdf = df.copy()
                 subdf['descat'] = cat
-                if para:
-                    subdf['cat'] = df['oricat0']
-                else:
-                    subdf['cat'] = df['oricat']
+                subdf['cat'] = df['oricat']
                 tem = [sen_in(sen, subdf.index, train_time=train_time, para=para) for sen in subdf.iterrows()]
                 tem = np.array(tem)
                 subdf['v_supplied'] = tem[:, 1]

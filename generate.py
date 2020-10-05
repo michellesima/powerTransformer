@@ -104,8 +104,8 @@ def eval_model(mind, test_dataset, df, vocabBoost, mtd='para'):
     else:
         savedir = './modelr/savedmodels'
 
-    if 'sen0' in df.columns:
-        colsen = 'sen0'
+    if 'orisen' in df.columns:
+        colsen = 'orisen'
     else:
         colsen = 'sen'
     modelpath = savedir + str(mind)

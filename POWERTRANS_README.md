@@ -14,7 +14,7 @@ in a `data` folder
 ## Generation
 To generate paraphrases with augmented agency, run `generate.py` in the following fashion.
 
-```python generate.py --dataset <dataset> --epoch <model epoch> --setup <model setup>```
+```python generate.py --dataset <dataset> --epoch <model epoch> --setup <model setup> --vocabBoost```
 
 It will generate paraphrase sentences in all `pos`, `equal` and `neg` categories for each sentence
 
@@ -23,3 +23,5 @@ It will generate paraphrase sentences in all `pos`, `equal` and `neg` categories
 | dataset  | Dataset for generation <br> **para**: devset for paraphrase <br> **roc**: devset for ROC stories <br> **rco-test**: test set for ROC stories |
 | epoch | the epoch of the model |
 | setup | whether the model is trained on `joint` or `para-only` objective |
+| vocabBoost | whether or not to include vocabBoost |
+

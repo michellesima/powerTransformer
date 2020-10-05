@@ -6,6 +6,7 @@ import pandas as pd
 from utils import *
 from utils_dr import *
 import torch.nn.functional as F
+from torch import nn
 from torch.nn import CrossEntropyLoss
 from examples.run_generation import *
 import sys
@@ -16,6 +17,7 @@ numepoch = 10
 ps = [0.4]
 agen_vector = agen_vector(tokenizer_dr, num_added_token_dr, multi=False)
 agen_v = agen_verbs()
+softmax = nn.Softmax(dim=0)
 REPEAT_PENALTY = 5
 
 

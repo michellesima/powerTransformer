@@ -7,9 +7,9 @@ from dataset import Dataset_dr
 import torch
 import numpy as np
 
-TRAIN_DR = './con_rew_data/para/train_dr.csv'
-DEV_DR = './con_rew_data/para/dev_dr.csv'
-TEST_DR = './con_rew_data/para/test_dr.csv'
+TRAIN_DR = './con_rew_data/para/train.csv'
+DEV_DR = './con_rew_data/para/dev.csv'
+TEST_DR = './con_rew_data/para/test.csv'
 
 fw = open('verb_no_simi.txt', 'w')
 

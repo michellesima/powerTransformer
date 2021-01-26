@@ -25,3 +25,6 @@ It will generate paraphrase sentences in all `pos`, `equal` and `neg` categories
 | setup | whether the model is trained on `joint` or `para-only` objective |
 | vocabBoost | whether or not to include vocabBoost |
 
+### Citation
+Maarten Sap, Marcella Cindy Prasetio, Ariel Holtzman, Hannah Rashkin, and Yejin Choi. 2017. Connotation frames of power and agency in modern
+films. In EMNLP.

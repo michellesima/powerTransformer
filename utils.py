@@ -28,7 +28,7 @@ def agen_verbs():
     for short phrases like 'apply to', only the first word is considered
     Note: 24 words not in verb.txt
     '''
-    df = pd.read_csv('~/resources/lexica/CONNOTATION/agency_verb.csv')
+    df = pd.read_csv('./CFdata/agency_verb.csv')
     agen_v = {}
     total = 0
     cats = {'+': 'pos', '-':'neg', '=':'equal'}
